@@ -6,7 +6,7 @@
   "author": "gabrielrassweiler <gabriel_rassweiler@hotmail.com>",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.vue ./",
+    "lint": "eslint --ext .js,.vue quasar-crud",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
