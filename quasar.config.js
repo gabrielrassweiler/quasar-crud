@@ -10,7 +10,7 @@
 
 const { configure } = require('quasar/wrappers')
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure(function (ctx) {
   return {
     eslint: {
       // fix: true,
@@ -58,7 +58,13 @@ module.exports = configure(function (/* ctx */) {
         node: 'node16'
       },
 
-      vueRouterMode: 'history' // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
+      // Configuração de env de desenvolvimento e produção
+      env: {
+        API_URL: ctx.dev
+          ? 'http://localhost:8082/'
+          : 'http://localhost:8082/'
+      }
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
