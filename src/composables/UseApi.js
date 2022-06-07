@@ -10,6 +10,15 @@ export default function useApi (url) {
     }
   }
 
+  const listById = async (id) => {
+    try {
+      const { data } = await api.get(`${url}/${id}`)
+      return data
+    } catch (e) {
+      throw new Error(e)
+    }
+  }
+
   const post = async (param) => {
     try {
       const { data } = await api.post(url, param)
@@ -39,6 +48,7 @@ export default function useApi (url) {
 
   return {
     list,
+    listById,
     post,
     update,
     remove

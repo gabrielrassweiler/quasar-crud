@@ -36,6 +36,7 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import postsService from 'src/services/posts'
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -49,6 +50,7 @@ export default defineComponent({
       { name: 'actions', field: 'actions', label: 'Ações', align: 'right' }
     ]
     const $q = useQuasar()
+    const router = useRouter()
 
     onMounted(() => {
       getPosts()
@@ -75,14 +77,19 @@ export default defineComponent({
           await getPosts()
         })
       } catch (e) {
-        $q.notify({ message: 'Erro ao apagar posts', icon: 'times', color: 'negative' })
+        $q.notify({ message: 'Erro ao apagar posts', icon: 'error', color: 'negative' })
       }
+    }
+
+    const updatePost = (id) => {
+      router.push({ name: 'formPost', params: { id } })
     }
 
     return {
       posts,
       columns,
-      deletePost
+      deletePost,
+      updatePost
     }
   }
 })

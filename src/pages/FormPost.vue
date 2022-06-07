@@ -51,30 +51,48 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import postsService from 'src/services/posts'
 import { useQuasar } from 'quasar'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'FormPost',
   setup () {
-    const { post } = postsService()
+    const { post, listById, update } = postsService()
     const $q = useQuasar()
     const router = useRouter()
+    const route = useRoute()
     const form = ref({
       title: '',
       content: '',
       author: ''
     })
 
+    onMounted(async () => {
+      if (route.params.id) {
+        try {
+          const data = await listById(route.params.id)
+          if (data) {
+            form.value = data
+          }
+        } catch (e) {
+          $q.notify({ message: `Erro ao buscar post de ID: ${route.params.id}`, icon: 'error', color: 'negative' })
+        }
+      }
+    })
+
     const onSubmit = async () => {
       try {
-        await post(form.value)
-        $q.notify({ message: 'Cadastrado com sucesso', icon: 'check', color: 'positive' })
+        if (form.value.id) {
+          await update(form.value)
+        } else {
+          await post(form.value)
+        }
+        $q.notify({ message: 'Post salvo com sucesso', icon: 'check', color: 'positive' })
         router.push({ name: 'home' })
       } catch (e) {
-        $q.notify({ message: 'Erro ao apagar posts', icon: 'times', color: 'negative' })
+        $q.notify({ message: 'Erro ao salvar posts', icon: 'error', color: 'negative' })
         console.log(e)
       }
     }
