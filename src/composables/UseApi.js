@@ -10,7 +10,7 @@ export default function useApi (url) {
     }
   }
 
-  const post = async (url, param) => {
+  const post = async (param) => {
     try {
       const { data } = await api.post(url, param)
       return data
@@ -19,7 +19,7 @@ export default function useApi (url) {
     }
   }
 
-  const update = async (url, param) => {
+  const update = async (param) => {
     try {
       const { data } = await api.put(`${url}/${param.id}`, param)
       return data
